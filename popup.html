@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TabHarmony - Tab Organizer</title>
+  <link rel="shortcut icon" type="image/png" href="icons/icon32.png">
+  <link rel="stylesheet" href="popup.css">
+</head>
+
+<body>
+  <div class="app-container">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="logo-icon" style="padding: 0; overflow: hidden; background: transparent; box-shadow: none;">
+          <img src="icons/icon128.png" alt="TabHarmony Logo" style="width: 100%; height: 100%; object-fit: cover; display: block;" />
+        </div>
+        <div class="brand-text">
+          <h1>TabHarmony</h1>
+          <span class="version">v1.0.0</span>
+        </div>
+      </div>
+
+      <nav class="nav-menu">
+        <button class="nav-btn active" data-tab="dashboard-view">
+          <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none"
+            stroke-linecap="round" stroke-linejoin="round" class="nav-icon">
+            <rect x="3" y="3" width="7" height="9"></rect>
+            <rect x="14" y="3" width="7" height="5"></rect>
+            <rect x="14" y="12" width="7" height="9"></rect>
+            <rect x="3" y="16" width="7" height="5"></rect>
+          </svg>
+          Dashboard
+        </button>
+        <button class="nav-btn" data-tab="rules-view">
+          <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none"
+            stroke-linecap="round" stroke-linejoin="round" class="nav-icon">
+            <polyline points="4 17 10 11 4 5"></polyline>
+            <line x1="12" y1="19" x2="20" y2="19"></line>
+          </svg>
+          Custom Rules
+        </button>
+        <button class="nav-btn" data-tab="settings-view">
+          <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none"
+            stroke-linecap="round" stroke-linejoin="round" class="nav-icon">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path
+              d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z">
+            </path>
+          </svg>
+          Settings
+        </button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <span id="tab-count-badge">0 Tabs Open</span>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="content-area">
+
+      <!-- VIEW: DASHBOARD -->
+      <section id="dashboard-view" class="tab-panel active">
+        <!-- Top Toolbar -->
+        <header class="view-header">
+          <div class="search-container">
+            <svg class="search-icon" viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.5"
+              fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input type="text" id="tab-search" placeholder="Search open tabs..." autocomplete="off">
+          </div>
+
+          <div class="quick-actions">
+            <button id="btn-group-domain" class="btn btn-primary" title="Group all tabs by domain name">
+              <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2.5" fill="none"
+                stroke-linecap="round" stroke-linejoin="round" class="btn-icon">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="2" y1="12" x2="22" y2="12"></line>
+                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z">
+                </path>
+              </svg>
+              Group Domain
+            </button>
+            <button id="btn-group-rules" class="btn btn-secondary" title="Group tabs using your custom rules">
+              <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2.5" fill="none"
+                stroke-linecap="round" stroke-linejoin="round" class="btn-icon">
+                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+              </svg>
+              Apply Rules
+            </button>
+            <button id="btn-collapse-toggle" class="btn btn-secondary"
+              title="Toggle collapse/expand on all active groups">
+              <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2.5" fill="none"
+                stroke-linecap="round" stroke-linejoin="round" class="btn-icon">
+                <polyline points="4 14 10 14 10 20"></polyline>
+                <polyline points="20 10 14 10 14 4"></polyline>
+                <line x1="14" y1="10" x2="21" y2="3"></line>
+                <line x1="3" y1="21" x2="10" y2="14"></line>
+              </svg>
+            </button>
+            <button id="btn-ungroup-all" class="btn btn-danger-outline" title="Remove all tabs from groups">
+              <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2.5" fill="none"
+                stroke-linecap="round" stroke-linejoin="round" class="btn-icon">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="9" y1="9" x2="15" y2="15"></line>
+                <line x1="15" y1="9" x2="9" y2="15"></line>
+              </svg>
+            </button>
+          </div>
+        </header>
+
+        <!-- Groups and Tabs Workspace -->
+        <div class="workspace-scroll">
+          <div id="groups-container" class="groups-container">
+            <!-- Active groups will be injected here dynamicly -->
+          </div>
+
+          <!-- Ungrouped Tabs Section -->
+          <div class="ungrouped-section">
+            <div class="ungrouped-header">
+              <h3>Ungrouped Tabs <span class="badge" id="ungrouped-count">0</span></h3>
+            </div>
+            <div id="ungrouped-list" class="tabs-list drag-zone" data-group-id="ungrouped">
+              <!-- Ungrouped tabs injected here -->
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- VIEW: CUSTOM RULES -->
+      <section id="rules-view" class="tab-panel">
+        <header class="view-header flex-column">
+          <h2>Custom Rules Engine</h2>
+        </header>
+
+        <div class="workspace-scroll rules-workspace">
+          <!-- Rule Form Card -->
+          <div class="card rule-form-card">
+            <h3 id="form-title">Create New Rule</h3>
+            <form id="rule-form">
+              <input type="hidden" id="edit-rule-id" value="">
+              <div class="form-row">
+                <div class="form-group flex-2">
+                  <label for="rule-name">Group Name</label>
+                  <input type="text" id="rule-name" placeholder="e.g. Work, Shopping, News" required>
+                </div>
+
+                <div class="form-group flex-1">
+                  <label for="rule-color">Group Color</label>
+                  <select id="rule-color" required>
+                    <option value="grey" class="opt-grey">Grey</option>
+                    <option value="blue" class="opt-blue" selected>Blue</option>
+                    <option value="red" class="opt-red">Red</option>
+                    <option value="yellow" class="opt-yellow">Yellow</option>
+                    <option value="green" class="opt-green">Green</option>
+                    <option value="pink" class="opt-pink">Pink</option>
+                    <option value="purple" class="opt-purple">Purple</option>
+                    <option value="cyan" class="opt-cyan">Cyan</option>
+                    <option value="orange" class="opt-orange">Orange</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="rule-patterns">URL Match Patterns (wildcards allowed, comma separated)</label>
+                <input type="text" id="rule-patterns" placeholder="e.g. *github.com*, *stackoverflow.com*">
+                <span class="help-text">Matches against the tab's web address.</span>
+              </div>
+
+              <div class="form-group">
+                <label for="rule-keywords">Title Keywords (comma separated)</label>
+                <input type="text" id="rule-keywords" placeholder="e.g. tutorial, doc, pricing, dashboard">
+                <span class="help-text">Matches if any keyword is found in the tab title or URL.</span>
+              </div>
+
+              <div class="form-actions">
+                <button type="submit" id="btn-save-rule" class="btn btn-primary">Create Rule</button>
+                <button type="button" id="btn-cancel-edit" class="btn btn-secondary-outline"
+                  style="display: none;">Cancel</button>
+              </div>
+            </form>
+          </div>
+
+          <!-- Existing Rules List -->
+          <div class="rules-list-section">
+            <h3>Active Rules</h3>
+            <div id="rules-list-container" class="rules-list-container">
+              <!-- Rules injected here -->
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- VIEW: SETTINGS -->
+      <section id="settings-view" class="tab-panel">
+        <header class="view-header">
+          <h2>Preferences</h2>
+        </header>
+
+        <div class="workspace-scroll settings-workspace">
+          <div class="card settings-card">
+            <h3>Automation & Behavior</h3>
+
+            <div class="setting-item">
+              <div class="setting-info">
+                <h4>Auto-Group on Load</h4>
+                <p>Run your Custom Rules automatically whenever a tab finishes loading.</p>
+              </div>
+              <label class="switch">
+                <input type="checkbox" id="toggle-auto-group">
+                <span class="slider round"></span>
+              </label>
+            </div>
+
+            <div class="setting-item">
+              <div class="setting-info">
+                <h4>Auto-Group Domains on Load</h4>
+                <p>Automatically group tabs by domain name when they finish loading (as a fallback to rules).</p>
+              </div>
+              <label class="switch">
+                <input type="checkbox" id="toggle-auto-group-domains">
+                <span class="slider round"></span>
+              </label>
+            </div>
+
+          </div>
+
+          <div class="card settings-card" style="display: flex; gap: 16px; align-items: flex-start; padding: 16px; margin-bottom: 12px;">
+            <img src="icons/icon128.png" alt="TabHarmony Logo" style="width: 50px; height: 50px; border-radius: 10px; flex-shrink: 0; box-shadow: var(--shadow-glow);" />
+            <div>
+              <h3 style="border-bottom: none; margin-bottom: 4px; padding-bottom: 0; font-size: 15px;">TabHarmony</h3>
+              <p class="about-text" style="margin-bottom: 6px; font-size: 12px; line-height: 1.4;">
+                Smart, automatic tab grouping based on domain name and custom user rules using Chrome's native Tab Groups API.
+              </p>
+              <span class="version" style="font-size: 11px; color: var(--text-muted); display: block;">
+                Developed by <strong>Mohomed Ziard | Voltrex Digital</strong>
+              </span>
+            </div>
+          </div>
+
+          <div class="card settings-card">
+            <h3>About Chrome Tab Groups</h3>
+            <p class="about-text">
+              TabHarmony interfaces directly with Chrome's native <strong>Tab Groups API</strong>.
+            </p>
+            <ul class="about-list">
+              <li>Groups created here are standard Chrome tab groups and sync with your active Chrome window.</li>
+              <li>You can right-click any group header in your Chrome browser bar to save, rename, or collapse groups.
+              </li>
+              <li>Tabs inside collapsed groups will take up less space in your browser.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- Move Tab Dropdown Menu Modal (Fallback for Drag/Drop) -->
+  <div id="move-tab-modal" class="modal-overlay">
+    <div class="modal-content">
+      <h3>Move Tab to Group</h3>
+      <div class="form-group">
+        <select id="move-group-select">
+          <!-- Populated dynamically -->
+        </select>
+      </div>
+      <div class="modal-actions">
+        <button id="btn-confirm-move" class="btn btn-primary">Move</button>
+        <button id="btn-close-modal" class="btn btn-secondary-outline">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="rules.js"></script>
+  <script src="popup.js"></script>
+</body>
+
+</html>
