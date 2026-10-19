@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "TabHarmony",
-  "version": "1.0.0",
-  "description": "Smart, automatic tab grouping based on domain name and custom user rules using Chrome's native Tab Groups API.",
+  "name": "Voltrex Harmony",
+  "version": "2.0.0",
+  "description": "Smart, automatic tab grouping, session stash, and memory-saving tab workspace by Voltrex Digital.",
   "permissions": [
     "tabs",
     "tabGroups",
@@ -16,7 +16,7 @@
     "service_worker": "background.js"
   },
   "action": {
-    "default_popup": "popup.html",
+    "default_popup": "dist/index.html",
     "default_icon": {
       "16": "icons/icon16.png",
       "32": "icons/icon32.png",

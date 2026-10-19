@@ -1,70 +1,85 @@
-# 🗂️ TabHarmony
+# 🌅 Voltrex Harmony
 
-**TabHarmony** is a sleek, privacy-focused, dark-mode browser extension that organizes open browser tabs using Chrome's native Tab Groups API. It supports domain-based grouping, user-defined wildcard and keyword rules, and automatic real-time sorting.
+**Voltrex Harmony** is a state-of-the-art, dark-mode browser extension and intelligent workspace manager that brings clarity, speed, and tranquility to open browser tabs using Chrome's native Tab Groups API.
+
+Completely rewritten with **React 19** and **Material UI (MUI)**, Voltrex Harmony features an exquisite warm sunset aesthetic tailored around four signature tones:
+*   🍷 `#A14646` (Deep Coral Wine)
+*   🌺 `#DA6556` (Vibrant Terracotta Coral)
+*   🍑 `#EB895B` (Warm Amber Peach)
+*   🍯 `#FDB773` (Golden Honey Sand)
 
 Developed by **Mohomed Ziard | Voltrex Digital**.
 
-<p align="center">
-  <img src="icons/icon128.png" width="128" height="128" alt="TabHarmony Logo" />
-</p>
+---
+
+## ✨ Features Overview
+
+### 1. 🗂️ Intelligent Workspace & Tab Grouping
+*   🌐 **One-Click Domain Grouping**: Group open tabs by base domain with automatic second-level domain clustering (e.g. `github.com`, `google.com`).
+*   🎨 **Smart Favicon Color Extraction**: Analyzes the website's favicon using canvas pixel processing and dynamically matches it to the closest native Chrome group color.
+*   ⚡ **Custom Rules Engine**: User-defined wildcard patterns (`*github.com*`, `*localhost*`) and keyword filters (`docs`, `meeting`, `api`) with automated priority grouping.
+*   ↕️ **Collapse / Expand Toggle**: Collapse or expand all active groups in one click.
+*   🏷️ **Inline Renaming & Color Cycling**: Click group names to edit live in Chrome, or switch colors directly from the palette menu.
+*   🧹 **Duplicate Tab Purge**: Identifies repeated URLs across open tabs and closes duplicates with one click.
+*   💤 **Tab Memory Saver (Snooze Tabs)**: Uses `chrome.tabs.discard()` to immediately release RAM from dormant tabs without closing them.
+*   🔊 **Audio & Mute Controls**: Instantly detect tabs playing media and toggle mute directly from the popup.
+
+### 2. 💾 Workspace Stash & Session Snapshots *(New Feature)*
+*   **Stash Workspace**: Save all open tabs and group configurations (titles, colors, tab order) into a named session snapshot.
+*   **One-Click Restore**: Reopen and restore your saved workspace on demand.
+*   **Import / Export**: Backup or migrate your sessions across machines via JSON.
+
+### 3. 📊 Harmony Analytics *(New Feature)*
+*   **Harmony Score**: Dynamic metric tracking how effectively your tabs are organized.
+*   **RAM Reclaimed Tracker**: Real-time counter of system memory freed through suspended inactive tabs.
+*   **Domain Breakdown**: Visual breakdown bars showing your most frequently visited services.
+
+### 4. ⚡ Curated Starter Presets *(New Feature)*
+*   💻 **Developer Suite**: GitHub, StackOverflow, MDN, localhost
+*   🎥 **Media & Entertainment**: YouTube, Spotify, Netflix, Twitch
+*   💼 **Work & Collaboration**: Google Docs, Drive, Slack, Notion, Figma
+*   🛍️ **Shopping & Deals**: Amazon, eBay, AliExpress, BestBuy
 
 ---
 
-## ✨ Key Features
+## 🛠️ Tech Stack & Architecture
 
-*   🚀 **One-Click Smart Grouping**: Group tabs instantly by their base domain name (e.g., all `github.com` tabs grouped under "GitHub").
-*   🎨 **Smart Favicon Color Matching**: Automatically fetches and analyzes the dominant color of a website's favicon (using a temporary canvas) and maps it to the closest matching native Chrome group color.
-*   ⚡ **Custom Rules Engine**: Define custom rules using wildcard URLs (e.g. `*.localhost/*`) or title keywords (e.g. `tutorial`) to bundle tabs into custom-colored groups.
-*   🤖 **Automation Settings**:
-    *   **Auto-Group on Load**: Automatically runs your Custom Rules whenever a tab finishes loading.
-    *   **Auto-Group Domains on Load**: Falls back to domain-based grouping automatically when tabs finish loading.
-*   ↕️ **Collapse/Expand Toggle**: Collapse or expand all active tab groups in a single click (syncs instantly with Chrome's native tab bar).
-*   🖐️ **Interactive Dashboard**:
-    *   Dynamic search bar to filter tabs in real-time.
-    *   Drag-and-drop support to move tabs between groups.
-    *   Inline group renaming and group color cycling.
-    *   Fallback select menus to move tabs between groups easily.
-*   🔒 **Privacy First**: Operates 100% locally in your browser. No external API dependencies or trackers.
+*   **Frontend**: React 19, Material UI (`@mui/material`), Emotion (`@emotion/react`, `@emotion/styled`), `@mui/icons-material`
+*   **Bundler**: Vite
+*   **Extension Format**: Chrome Manifest V3 (Service Worker `background.js`, native Tab Groups API)
+*   **Typography**: Google Fonts (*Outfit* & *Plus Jakarta Sans*)
 
 ---
 
-## 🛠️ File Structure
+## ⚙️ Installation & Development
 
-The project contains the following files:
+### 1. Build the Extension
+```bash
+npm install
+npm run build
+```
 
-*   **[`manifest.json`](manifest.json)**: Extension Manifest V3 configuration declaring background service workers, action popups, host permissions, and icon assets.
-*   **[`rules.js`](rules.js)**: The pattern matching and URL/title extraction engine.
-*   **[`background.js`](background.js)**: The background worker that listens for tab loading states and automatically routes tabs to their designated groups.
-*   **[`popup.html`](popup.html)**: The dashboard layout, rule manager form, and settings panels.
-*   **[`popup.css`](popup.css)**: Custom dark glassmorphic styling system, matching Chrome's native tab group colors, and spinner animations.
-*   **[`popup.js`](popup.js)**: Interacts with Chrome API to fetch and render tab statuses, handles drag-and-drop events, search filters, and rule management.
-*   **[`icons/icon128.png`](icons/icon128.png)**: The custom brand logo icon.
+This compiles the React app and automatically populates the `dist/` directory with `manifest.json`, `background.js`, `rules.js`, and `icons/`.
 
----
-
-## ⚙️ Installation
-
-To run this extension locally in your Chrome browser:
-
-1.  Clone or download this repository to a folder on your computer (e.g. `j:\Lap Hard Backup\Project Files\Nodejs Projects\html\tabOrganizer`).
-2.  Open Google Chrome and navigate to `chrome://extensions/`.
-3.  In the top-right corner, toggle the **Developer mode** switch to **ON**.
-4.  In the top-left corner, click the **Load unpacked** button.
-5.  Select the folder containing this project.
-6.  TabHarmony is now loaded! Pin it to your extensions toolbar.
+### 2. Load in Google Chrome
+1. Open Chrome and navigate to `chrome://extensions/`.
+2. Turn ON **Developer mode** in the top-right corner.
+3. Click **Load unpacked** in the top-left corner.
+4. Select the `dist/` directory (or the root project directory).
+5. Pin **Voltrex Harmony** to your browser toolbar!
 
 ---
 
-## 🚀 How to Use
+## 💡 Suggested Future Features
 
-1.  **Smart Grouping**: Click the **Group Domain** button on the dashboard to automatically organize tabs by their domain. The group colors will dynamically match the dominant colors of the site favicons.
-2.  **Custom Rules**: Navigate to the **Custom Rules** tab in the sidebar. Add rules like `Work` for patterns containing `*docs.google.com*` or keywords containing `issue`. Go back to the dashboard and click **Apply Rules** to check matching tabs.
-3.  **Automatic Organizing**: Go to **Settings** and toggle **Auto-Group on Load** or **Auto-Group Domains on Load**. Open a tab (e.g. `news.ycombinator.com`) and verify it groups itself automatically in the background.
-4.  **Drag-and-Drop**: Click and drag a tab item inside the dashboard, then drop it inside another group card (or the ungrouped list) to move it in Chrome in real-time.
-5.  **Clean up**: Use **Collapse All** to collapse all active groups in the tab strip, or click **Ungroup All** to ungroup all tabs in the active window.
+1.  **AI Tab Clustering & Semantic Grouping**: Use a local or cloud LLM to automatically cluster tabs by research topic or intent (e.g., "Research on Machine Learning", "Trip to Tokyo") rather than just domain.
+2.  **Context-Aware Auto-Sleep Policies**: Configurable background timer to automatically snooze tabs inactive for >15 minutes to maximize battery life on laptops.
+3.  **Cross-Device Cloud Sync**: Synchronize custom rules and stashed workspaces via Firebase or Supabase across all Chrome browsers.
+4.  **Omnibox Quick Commands**: Type `vh group` or `vh stash <name>` directly in the Chrome address bar to organize tabs without opening the popup.
+5.  **Per-Group Memory Budgets**: Alert when a tab group exceeds a threshold of open tabs or active video streams.
 
 ---
 
 ## 📄 License
 
-This project is licensed under the MIT License.
+Licensed under the MIT License. Developed by **Mohomed Ziard | Voltrex Digital**.

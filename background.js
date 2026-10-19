@@ -1,5 +1,7 @@
 /**
- * Background Service Worker for TabHarmony
+ * Voltrex Harmony - Background Service Worker
+ * Smart tab grouping and memory automation powered by Chrome Tab Groups API.
+ * Developed by Mohomed Ziard | Voltrex Digital
  */
 
 // Import rules engine
@@ -9,30 +11,31 @@ importScripts('rules.js');
 chrome.runtime.onInstalled.addListener(() => {
   chrome.storage.local.get({
     autoGrouping: false,
-    autoGroupDomains: false, // Default to false
+    autoGroupDomains: false,
     rules: [
       {
         id: "rule_dev",
         name: "Development",
         color: "blue",
-        patterns: ["*github.com*", "*localhost*", "*stackoverflow.com*", "*codepen.io*"],
-        keywords: ["developer", "documentation", "api"]
+        patterns: ["*github.com*", "*localhost*", "*stackoverflow.com*", "*codepen.io*", "*developer.mozilla.org*"],
+        keywords: ["developer", "documentation", "api", "pull request", "commit"]
       },
       {
         id: "rule_social",
-        name: "Social & Video",
+        name: "Social & Media",
         color: "pink",
-        patterns: ["*youtube.com*", "*facebook.com*", "*twitter.com*", "*x.com*", "*instagram.com*", "*reddit.com*"],
-        keywords: ["video", "watch", "social", "chat"]
+        patterns: ["*youtube.com*", "*facebook.com*", "*twitter.com*", "*x.com*", "*instagram.com*", "*reddit.com*", "*spotify.com*"],
+        keywords: ["video", "watch", "social", "stream", "music"]
       },
       {
         id: "rule_work",
         name: "Work & Collab",
         color: "green",
-        patterns: ["*google.com/drive*", "*docs.google.com*", "*trello.com*", "*slack.com*", "*notion.so*"],
-        keywords: ["dashboard", "workspace", "meeting", "zoom"]
+        patterns: ["*google.com/drive*", "*docs.google.com*", "*trello.com*", "*slack.com*", "*notion.so*", "*figma.com*"],
+        keywords: ["dashboard", "workspace", "meeting", "docs", "sheets"]
       }
-    ]
+    ],
+    sessions: []
   }, (items) => {
     chrome.storage.local.set(items);
   });
@@ -85,14 +88,14 @@ function applyRulesToTab(tab) {
             });
           }
         } catch (err) {
-          console.error("Error auto-grouping by rules:", err);
+          console.error("[Voltrex Harmony] Error auto-grouping by rules:", err);
         }
       }
     }
     
     // 2. Try Domain Auto-Grouping (if rules didn't match and domain auto-group is enabled)
     if (!matched && data.autoGroupDomains) {
-      const domainInfo = getTabDomain(tab); // Available from imported rules.js
+      const domainInfo = getTabDomain(tab);
       if (domainInfo) {
         try {
           const { name } = domainInfo;
@@ -107,7 +110,6 @@ function applyRulesToTab(tab) {
               groupId: existingGroup.id
             });
           } else {
-            // Pick a color consistently based on keyword or name hash
             const color = getDomainColor(name);
             const newGroupId = await chrome.tabs.group({
               tabIds: tab.id
@@ -118,7 +120,7 @@ function applyRulesToTab(tab) {
             });
           }
         } catch (err) {
-          console.error("Error auto-grouping by domain:", err);
+          console.error("[Voltrex Harmony] Error auto-grouping by domain:", err);
         }
       }
     }
@@ -126,7 +128,7 @@ function applyRulesToTab(tab) {
 }
 
 /**
- * Generates a consistent group color for a domain using keywords or a simple hash.
+ * Generates a consistent group color for a domain using keywords or character hashing.
  * @param {string} domain 
  * @returns {string} One of Chrome's 9 native group colors
  */
@@ -150,7 +152,6 @@ function getDomainColor(domain) {
     }
   }
   
-  // Consistent color selection via character code hashing
   const colors = ['grey', 'blue', 'red', 'yellow', 'green', 'pink', 'purple', 'cyan', 'orange'];
   let hash = 0;
   for (let i = 0; i < domain.length; i++) {
